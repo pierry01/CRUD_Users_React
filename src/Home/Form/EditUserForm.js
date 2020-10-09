@@ -8,7 +8,7 @@ import { Button, TextField } from "@material-ui/core";
 import ClearIcon from "@material-ui/icons/Clear";
 import CheckIcon from "@material-ui/icons/Check";
 
-const Form = () => {
+const Form = (props) => {
   const { register, handleSubmit, errors } = useForm();
   const [user, setUser] = useState(props.currentUser);
 
@@ -25,7 +25,64 @@ const Form = () => {
 
   return (
     <Container>
-      <h1>Form</h1>
+      <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+        <TextField
+          variant="outlined"
+          id="name"
+          label="Name"
+          name="name"
+          autoFocus
+          required
+          inputRef={register({
+            minLength: { value: 10, message: "Min 10 characters" },
+          })}
+          defaultValue={user.name}
+        />
+        {errors.name && <p>{errors.name.message}</p>}
+
+        <br />
+        <TextField
+          variant="outlined"
+          id="cpf"
+          label="CPF"
+          name="cpf"
+          required
+          inputRef={register({
+            validate: (value) => {
+              if (value.length !== 11) {
+                return "Exactly 11 characters";
+              } else {
+                if (!validarCpf(value)) {
+                  return "CPF inválido";
+                }
+              }
+            },
+          })}
+          defaultValue={user.cpf}
+        />
+        {errors.cpf && <p>{errors.cpf.message}</p>}
+
+        <br />
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "#4caf50", color: "#fff" }}
+          type="submit"
+          size="small"
+          startIcon={<CheckIcon />}
+        >
+          Update User
+        </Button>
+
+        <Button
+          variant="contained"
+          style={{ backgroundColor: "#9a0036", color: "#fff" }}
+          size="small"
+          startIcon={<ClearIcon />}
+          onClick={() => props.setEditing(false)}
+        >
+          Cancel
+        </Button>
+      </form>
     </Container>
   );
 };
