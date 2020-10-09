@@ -4,9 +4,9 @@ import { Container } from "./styles";
 
 import API from "../API";
 
-import AddUserForm from "./Form/AddUserForm";
 import EditUserForm from "./Form/EditUserForm";
 import UserTable from "./UserTable";
+import MyModal from "./UserTable/MyModal";
 
 const Home = () => {
   // eslint-disable-next-line
@@ -32,18 +32,6 @@ const Home = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
-  };
-
-  const addUser = (user) => {
-    let params = { name: user.name, cpf: user.cpf };
-
-    API.post("/users", params)
-      .then((res) => {
-        setUsers([...users, res.data]);
-      })
-      .catch((err) => {
-        console.log("catch: " + err);
       });
   };
 
@@ -94,7 +82,7 @@ const Home = () => {
           </>
         ) : (
           <>
-            <AddUserForm addUser={addUser} />
+            <MyModal getUsers={getUsers} />
           </>
         )}
       </div>
