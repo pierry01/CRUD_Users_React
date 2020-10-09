@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { Container } from "./styles";
+
+import API from "../../../API";
+
+import AddUserForm from "./Form/AddUserForm";
+import EditUserForm from "./Form/EditUserForm";
+import UserTable from "./Table/UserTable";
 
 const Home = () => {
   // Set Effect
@@ -74,7 +80,28 @@ const Home = () => {
 
   return (
     <Container>
-      <h1>Home</h1>
+      <h1> BLOX - Test Code </h1>
+
+      <div>
+        {editing ? (
+          <>
+            <EditUserForm
+              editing={editing}
+              setEditing={setEditing}
+              currentUser={currentUser}
+              updateUser={updateUser}
+            />
+          </>
+        ) : (
+          <>
+            <AddUserForm addUser={addUser} />
+          </>
+        )}
+      </div>
+
+      <div>
+        <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
+      </div>
     </Container>
   );
 };
