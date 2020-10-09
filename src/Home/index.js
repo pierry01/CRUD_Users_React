@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import { Container } from "./styles";
 
-import API from "../../../API";
+import API from "../API";
 
 import AddUserForm from "./Form/AddUserForm";
 import EditUserForm from "./Form/EditUserForm";
-import UserTable from "./Table/UserTable";
+import Table from "./Table";
 
 const Home = () => {
-  // Set Effect
+  // eslint-disable-next-line
   useEffect(() => {
     getUsers();
   }, []);
@@ -100,7 +100,7 @@ const Home = () => {
       </div>
 
       <div>
-        <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
+        <Table users={users} editRow={editRow} deleteUser={deleteUser} />
       </div>
     </Container>
   );
