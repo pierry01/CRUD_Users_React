@@ -3,6 +3,18 @@ import React from "react";
 import { Container } from "./styles";
 
 const Home = () => {
+  // Set Effect
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  // Set States
+  let usersData = [];
+  const initialFormState = { id: null, name: "", cpf: "" };
+  const [users, setUsers] = useState(usersData);
+  const [currentUser, setCurrentUser] = useState(initialFormState);
+  const [editing, setEditing] = useState(false);
+
   // CRUD
   const getUsers = () => {
     API.get("/users")
@@ -52,6 +64,12 @@ const Home = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  // AUX
+  const editRow = (user) => {
+    setEditing(true);
+    setCurrentUser({ id: user.id, name: user.name, cpf: user.cpf });
   };
 
   return (
