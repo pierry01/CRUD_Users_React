@@ -6,7 +6,7 @@ import API from "../API";
 
 import AddUserForm from "./Form/AddUserForm";
 import EditUserForm from "./Form/EditUserForm";
-import Table from "./Table";
+import UserTable from "./UserTable";
 
 const Home = () => {
   // eslint-disable-next-line
@@ -100,7 +100,7 @@ const Home = () => {
       </div>
 
       <div>
-        <Table users={users} editRow={editRow} deleteUser={deleteUser} />
+        <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
       </div>
     </Container>
   );
