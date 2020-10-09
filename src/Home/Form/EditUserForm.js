@@ -18,14 +18,15 @@ const Form = (props) => {
 
   const onSubmit = (updatedUser) => {
     props.updateUser(user.id, updatedUser);
-    window.location.reload();
+    
+    document.getElementById("form").reset();
   };
 
   const validarCpf = require("validar-cpf");
 
   return (
     <Container>
-      <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+      <form id="form" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <TextField
           variant="outlined"
           id="name"

@@ -17,11 +17,13 @@ const AddUserForm = (props) => {
   const onSubmit = (e) => {
     props.addUser(e);
     setUser(initialFormState);
+    
+    document.getElementById("form").reset();
   };
 
   return (
     <Container>
-      <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+      <form id="form" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
         <TextField
           variant="outlined"
           id="name"

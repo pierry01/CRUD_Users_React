@@ -80,6 +80,7 @@ const Home = () => {
 
   return (
     <Container>
+      <br />
       <h1> BLOX - Test Code </h1>
 
       <div>
