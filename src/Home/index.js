@@ -4,12 +4,10 @@ import { Container } from "./styles";
 
 import API from "../API";
 
-import AddUserForm from "./Form/AddUserForm";
-import EditUserForm from "./Form/EditUserForm";
+import UserDialog from "./Form/UserDialog";
 import UserTable from "./UserTable";
 
 const Home = () => {
-  // eslint-disable-next-line
   useEffect(() => {
     getUsers();
   }, []);
@@ -18,8 +16,6 @@ const Home = () => {
   let usersData = [];
   const initialFormState = { id: null, name: "", cpf: "" };
   const [users, setUsers] = useState(usersData);
-  const [currentUser, setCurrentUser] = useState(initialFormState);
-  const [editing, setEditing] = useState(false);
 
   // CRUD
   const getUsers = () => {
@@ -35,25 +31,12 @@ const Home = () => {
       });
   };
 
-  const addUser = (user) => {
-    let params = { name: user.name, cpf: user.cpf };
-
-    API.post("/users", params)
-      .then((res) => {
-        setUsers([...users, res.data]);
-      })
-      .catch((err) => {
-        console.log("catch: " + err);
-      });
-  };
-
   const updateUser = (id, updatedUser) => {
     let params = { name: updatedUser.name, cpf: updatedUser.cpf };
 
     API.patch(`/users/${id}`, params)
       .then((res) => {
         console.log(res);
-        setEditing(false);
         setUsers(users.map((user) => (user.id === id ? updatedUser : user)));
       })
       .catch((err) => {
@@ -64,7 +47,6 @@ const Home = () => {
   const deleteUser = (id) => {
     API.delete(`/users/${id}`)
       .then((res) => {
-        setEditing(false);
         setUsers(users.filter((user) => user.id !== id));
       })
       .catch((err) => {
@@ -72,37 +54,14 @@ const Home = () => {
       });
   };
 
-  // AUX
-  const editRow = (user) => {
-    setEditing(true);
-    setCurrentUser({ id: user.id, name: user.name, cpf: user.cpf });
-  };
-
   return (
     <Container>
       <br />
       <h1> BLOX - Test Code </h1>
 
-      <div>
-        {editing ? (
-          <>
-            <EditUserForm
-              editing={editing}
-              setEditing={setEditing}
-              currentUser={currentUser}
-              updateUser={updateUser}
-            />
-          </>
-        ) : (
-          <>
-            <AddUserForm addUser={addUser} />
-          </>
-        )}
-      </div>
+      <UserTable users={users} deleteUser={deleteUser} />
 
-      <div>
-        <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
-      </div>
+      <UserDialog getUsers={getUsers} />
     </Container>
   );
 };

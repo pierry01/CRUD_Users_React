@@ -9,6 +9,7 @@ import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import UserDialog from "../Form/UserDialog";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -24,7 +25,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const UserTable = (props) => {
+const UserTable = ({ users, deleteUser }) => {
   return (
     <Container>
       <Table size="small">
@@ -37,8 +38,8 @@ const UserTable = (props) => {
         </TableHead>
 
         <TableBody>
-          {props.users.length > 0 ? (
-            props.users.map((user) => (
+          {users.length > 0 ? (
+            users.map((user) => (
               <StyledTableRow key={user.id}>
                 <StyledTableCell component="th" scope="row">
                   {user.name}
@@ -48,13 +49,11 @@ const UserTable = (props) => {
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
                   <Button
-                    onClick={() => {
-                      props.editRow(user);
-                    }}
                     variant="contained"
                     color="primary"
                     size="small"
                     startIcon={<EditIcon />}
+                    // onClick={}
                   >
                     Edit User
                   </Button>
@@ -66,7 +65,7 @@ const UserTable = (props) => {
                     startIcon={<DeleteIcon />}
                     onClick={() => {
                       if (window.confirm("Delete the item?")) {
-                        props.deleteUser(user.id);
+                        deleteUser(user.id);
                       }
                     }}
                   >

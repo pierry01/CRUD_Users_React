@@ -1,28 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import API from "../../API";
 
 import { Container } from "./styles";
 
 import { useForm } from "react-hook-form";
 
 import { Button, TextField } from "@material-ui/core";
-import ClearIcon from "@material-ui/icons/Clear";
-import CheckIcon from "@material-ui/icons/Check";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 
-const Form = (props) => {
+const UserForm = ({ user, handleClose, getUsers }) => {
   const { register, handleSubmit, errors } = useForm();
-  const [user, setUser] = useState(props.currentUser);
-
-  useEffect(() => {
-    setUser(props.currentUser);
-  }, [props]);
-
-  const onSubmit = (updatedUser) => {
-    props.updateUser(user.id, updatedUser);
-    
-    document.getElementById("form").reset();
-  };
 
   const validarCpf = require("validar-cpf");
+
+  const isEditing = !!user;
+
+  const onSubmit = (e) => {
+    let params = { name: e.name, cpf: e.cpf };
+
+    API.post("/users", params)
+      .then((res) => {
+        document.getElementById("form").reset();
+        handleClose();
+        getUsers();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <Container>
@@ -34,10 +39,10 @@ const Form = (props) => {
           name="name"
           autoFocus
           required
+          defaultValue={isEditing ? user.name : ""}
           inputRef={register({
             minLength: { value: 10, message: "Min 10 characters" },
           })}
-          defaultValue={user.name}
         />
         {errors.name && <p>{errors.name.message}</p>}
 
@@ -48,6 +53,7 @@ const Form = (props) => {
           label="CPF"
           name="cpf"
           required
+          defaultValue={isEditing ? user.cpf : ""}
           inputRef={register({
             validate: (value) => {
               if (value.length !== 11) {
@@ -59,33 +65,23 @@ const Form = (props) => {
               }
             },
           })}
-          defaultValue={user.cpf}
         />
         {errors.cpf && <p>{errors.cpf.message}</p>}
 
         <br />
         <Button
           variant="contained"
-          style={{ backgroundColor: "#4caf50", color: "#fff" }}
           type="submit"
           size="small"
-          startIcon={<CheckIcon />}
+          id="buttonNewUser"
+          style={{ backgroundColor: "#4caf50", color: "#fff" }}
+          startIcon={<AddCircleOutlineIcon />}
         >
-          Update User
-        </Button>
-
-        <Button
-          variant="contained"
-          style={{ backgroundColor: "#9a0036", color: "#fff" }}
-          size="small"
-          startIcon={<ClearIcon />}
-          onClick={() => props.setEditing(false)}
-        >
-          Cancel
+          {isEditing ? "Edit" : "Add User"}
         </Button>
       </form>
     </Container>
   );
 };
 
-export default Form;
+export default UserForm;
