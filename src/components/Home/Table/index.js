@@ -11,6 +11,7 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import UserDialog from '../Form/UserDialog'
+import swal from 'sweetalert'
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -60,15 +61,24 @@ const UserTable = ({ getUsers, users, deleteUser }) => {
                     size='small'
                     startIcon={<DeleteIcon />}
                     onClick={() => {
-                      if (window.confirm('Delete the item?')) {
-                        API.delete(`/users/${user.id}`)
-                          .then((res) => {
-                            getUsers()
+                      swal({
+                        title: 'Are you sure?',
+                        text: 'Once deleted, you will not be able to recover this!',
+                        icon: 'warning',
+                        buttons: true,
+                        dangerMode: true
+                      })
+                      .then((willDelete) => {
+                        if (willDelete) {
+                          API.delete(`/users/${user.id}`)
+                            .then((res) => { getUsers() })
+                            .catch((err) => { console.log(err) })
+                          
+                          swal('The user has been deleted!', {
+                            icon: 'success'
                           })
-                          .catch((err) => {
-                            console.log(err)
-                          })
-                      }
+                        }
+                      })
                     }}
                   >
                     Delete
