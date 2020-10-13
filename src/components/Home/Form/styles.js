@@ -19,10 +19,12 @@ export const Container = styled.div`
   }
   #buttonNewUser {
     margin-left: 0;
+    margin-top: 30px;
   }
-
+  
   p {
     margin: 0;
     color: red;
+    margin-bottom: -15px;
   }
 `;
