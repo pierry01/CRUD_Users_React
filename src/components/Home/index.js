@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <Container>
       <br />
-      <h1> BLOX - Test Code </h1>
+      <h1> CRUD Users </h1>
 
       <Table getUsers={getUsers} users={users} />
 
