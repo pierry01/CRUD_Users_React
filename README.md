@@ -1,4 +1,4 @@
-# BLOX - API Ruby on Rails + ReactJS
+# API Ruby on Rails + ReactJS
 
 **Para esta versão, foi usado o princípio de MVP. Existem melhorias que podem ser discutidas e implementadas**
 
@@ -8,7 +8,7 @@ A API_BASE está disponível no endereço:
 https://blox-backend.herokuapp.com
 
 O front-end foi hospedado usando surge.sh e está disponível em:
-http://blox-frontend.surge.sh/
+http://blox-frontend.surge.sh
 
 
 # Endpoints
